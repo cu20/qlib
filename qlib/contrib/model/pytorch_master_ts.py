@@ -357,7 +357,14 @@ class MASTERModel(Model):
 
     def _init_data_loader(self, data, shuffle=True, drop_last=True):
         sampler = DailyBatchSamplerRandom(data, shuffle)
-        data_loader = DataLoader(data, sampler=sampler, drop_last=drop_last)
+        data_loader = DataLoader(
+            data, 
+            sampler=sampler, 
+            drop_last=drop_last,
+            num_workers=4,  # 并行加载数据，加速数据准备
+            pin_memory=True,  # 将数据固定在内存中，加速 GPU 传输
+            persistent_workers=True if 4 > 0 else False  # 保持 worker 进程存活，避免重复创建
+        )
         return data_loader
 
     def load_param(self, param_path):
