@@ -67,22 +67,41 @@ def run_once(config: dict, dataset, seed: int, only_backtest: bool,
              log_dir: str) -> dict:
     """
     Train (or only backtest) for a single seed and return metrics dict.
+
+    If a saved model checkpoint already exists for this group+seed, training
+    is skipped and the checkpoint is loaded directly for backtesting.
     """
     cfg = copy.deepcopy(config)
     cfg["task"]["model"]["kwargs"]["seed"] = seed
     cfg["task"]["model"]["kwargs"]["use_wavelet_denoise"] = use_wavelet_denoise
 
-    # Unique experiment name to prevent result collision
+    # Each group gets its own save_prefix so model files don't collide:
+    #   model/csi300_baseline_0.pkl  /  csi300_pre_norm_0.pkl  /  csi300_after_norm_0.pkl
     group = save_prefix_suffix if save_prefix_suffix else (
         "denoise" if use_wavelet_denoise else "baseline"
     )
+    base_prefix = cfg["task"]["model"]["kwargs"].get("save_prefix", "csi300")
+    group_prefix = f"{base_prefix}_{group}" if group else base_prefix
+    cfg["task"]["model"]["kwargs"]["save_prefix"] = group_prefix
+
+    save_dir  = Path(cfg["task"]["model"]["kwargs"].get("save_path", "model/"))
+    ckpt_path = save_dir / f"{group_prefix}_{seed}.pkl"
+
     exp_name = f"waveformer_{group}_seed{seed}"
 
     with R.start(experiment_name=exp_name):
         model = init_instance_by_config(cfg["task"]["model"])
 
-        if not only_backtest:
+        if ckpt_path.exists():
+            print(f"[run_once] Found existing checkpoint: {ckpt_path}  → skip training")
+            model.load_model(str(ckpt_path))
+        elif not only_backtest:
+            print(f"[run_once] No checkpoint found at {ckpt_path}  → start training")
             model.fit(dataset)
+        else:
+            raise FileNotFoundError(
+                f"--only_backtest requested but checkpoint not found: {ckpt_path}"
+            )
 
         recorder = R.get_recorder()
         sr = SignalRecord(model, dataset, recorder)
@@ -94,13 +113,12 @@ def run_once(config: dict, dataset, seed: int, only_backtest: bool,
             "port_analysis_config"
         )
         if port_cfg is None:
-            # fall back to inline config key used in the yaml
             import yaml as _yaml
             with open(args_global.config) as f:
                 raw = _yaml.safe_load(f)
             port_cfg = raw.get("port_analysis_config")
 
-        par = PortAnaRecord(recorder, config=port_cfg, ann_scaler=252)
+        par = PortAnaRecord(recorder, config=port_cfg)
         par.generate()
 
         metrics = recorder.list_metrics()
