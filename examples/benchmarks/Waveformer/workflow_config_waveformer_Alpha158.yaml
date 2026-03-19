@@ -43,12 +43,8 @@ port_analysis_config: &port_analysis_config
         module_path: qlib.contrib.strategy
         kwargs:
             signal: <PRED>
-            topk: 30           # 仍持有 30 只，保证分散度
-            n_drop: 2          # 每个调仓日最多只换 2 只，进一步压低换手
-            hold_thresh: 10    # 至少持有 10 个交易日才允许卖出
-            risk_degree: 0.8   # 使用 80% 资金建仓，降低仓位波动
-            method_buy: top
-            method_sell: bottom
+            topk: 30
+            n_drop: 30
     backtest:
         start_time: 2017-01-01
         end_time: 2020-08-01
@@ -73,19 +69,6 @@ task:
             gate_input_end_index: 221
             beta: 5
             save_prefix: *market
-            # 小波去噪（默认关闭，由 main_waveformer.py 的消融逻辑动态开启）
-            use_wavelet_denoise: false
-            wavelet: "haar"
-            denoise_level: 1
-            threshold_method: "bayes"
-            threshold_mode: "soft"
-            threshold_scale: 0.3
-            denoise_blend: 0.25
-            denoise_finest_only: true
-            level_dependent_scale: true
-            use_edge_pad: true
-            use_boundary_smooth: false
-            boundary_smooth_win: 1
     dataset:
         class: MASTERTSDatasetH
         module_path: qlib.contrib.data.dataset
