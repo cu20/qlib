@@ -44,7 +44,7 @@ port_analysis_config: &port_analysis_config
         kwargs:
             signal: <PRED>
             topk: 30           # 仍持有 30 只，保证分散度
-            n_drop: 2          # 每个调仓日最多只换 2 只，进一步压低换手
+            n_drop: 3          # 每个调仓日最多换 3 只
             hold_thresh: 10    # 至少持有 10 个交易日才允许卖出
             risk_degree: 0.8   # 使用 80% 资金建仓，降低仓位波动
             method_buy: top

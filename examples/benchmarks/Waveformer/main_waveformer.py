@@ -176,9 +176,9 @@ def print_ablation_table(baseline: dict, after_norm: dict,
         ("ICIR",             "ICIR"),
         ("Rank IC",          "Rank IC"),
         ("Rank ICIR",        "Rank ICIR"),
-        ("annualized_return_with_cost",  "Ann Ret (w/ cost)"),
-        ("information_ratio_with_cost",  "IR (w/ cost)"),
-        ("max_drawdown_with_cost",       "Max DD (w/ cost)"),
+        ("1day.excess_return_with_cost.annualized_return", "Ann Ret (w/ cost)"),
+        ("1day.excess_return_with_cost.information_ratio", "IR (w/ cost)"),
+        ("1day.excess_return_with_cost.max_drawdown",      "Max DD (w/ cost)"),
     ]
 
     def _row(label, d):
