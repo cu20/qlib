@@ -19,7 +19,11 @@ class ParallelExt(Parallel):
     def __init__(self, *args, **kwargs):
         maxtasksperchild = kwargs.pop("maxtasksperchild", None)
         super(ParallelExt, self).__init__(*args, **kwargs)
-        if isinstance(self._backend, MultiprocessingBackend):
+        # 兼容不同版本的 joblib：有的 Parallel 实例上没有 `_backend_args` 属性
+        if isinstance(self._backend, MultiprocessingBackend) and maxtasksperchild is not None:
+            if not hasattr(self, "_backend_args"):
+                # 某些版本中 `_backend_args` 只在内部使用，这里按需初始化避免 AttributeError
+                self._backend_args = {}
             self._backend_args["maxtasksperchild"] = maxtasksperchild
 
 

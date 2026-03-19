@@ -75,7 +75,7 @@ REQUIRED = [
     # and no good replacement has been found, so the version of ruamel.yaml has been restricted for now.
     # Refs: https://pypi.org/project/ruamel.yaml/
     "ruamel.yaml<=0.17.36",
-    "pymongo==3.7.2",  # For task management
+    "pymongo>=3.7.2",  # For task management
     "scikit-learn>=0.22",
     "dill",
     "dataclasses;python_version<'3.7'",

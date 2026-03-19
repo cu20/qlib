@@ -58,7 +58,7 @@ task:
         module_path: qlib.contrib.model.pytorch_master_ts
         kwargs:
             seed: 0
-            n_epochs: 40
+            n_epochs: 10
             lr: 0.000008
             train_stop_loss_thred: 0.95
             market: *market

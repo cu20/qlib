@@ -1,0 +1,25 @@
+{
+  "timestamp": "20260315_093520",
+  "tag": "haar_l1_s0.5",
+  "config": {
+    "use_wavelet_denoise": true,
+    "wavelet": "haar",
+    "denoise_level": 1,
+    "threshold_scale": 0.5,
+    "threshold_mode": "soft",
+    "seeds": [
+      0
+    ],
+    "notes": "ablation denoise"
+  },
+  "metrics": {
+    "IC": "0.0721",
+    "ICIR": "0.5014",
+    "Rank IC": "0.0800",
+    "Rank ICIR": "0.5331",
+    "1day.excess_return_without_cost.annualized_return": "0.1191",
+    "1day.excess_return_without_cost.information_ratio": "1.2950",
+    "1day.excess_return_with_cost.annualized_return": "0.1064",
+    "1day.excess_return_with_cost.information_ratio": "1.1571"
+  }
+}

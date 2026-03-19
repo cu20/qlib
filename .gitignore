@@ -1,6 +1,6 @@
 # https://github.com/github/gitignore/blob/master/Python.gitignore
 __pycache__/
-
+*.docx
 *.pyc
 *.pyd
 *.so

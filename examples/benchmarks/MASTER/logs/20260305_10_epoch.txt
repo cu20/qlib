@@ -1,0 +1,98 @@
+(py310) root@cc2ea47de032:~/WaveFormer/qlib/examples/benchmarks/MASTER# qrun workflow_config_master_Alpha158.yaml
+[32709:MainThread](2026-03-04 16:45:56,006) INFO - qlib.Initialization - [config.py:416] - default_conf: client.
+[32709:MainThread](2026-03-04 16:45:56,008) INFO - qlib.Initialization - [__init__.py:74] - qlib successfully initialized based on client settings.
+[32709:MainThread](2026-03-04 16:45:56,009) INFO - qlib.Initialization - [__init__.py:76] - data_path={'__DEFAULT_FREQ': PosixPath('/root/.qlib/qlib_data/cn_data')}
+[32709:MainThread](2026-03-04 16:45:56,010) INFO - qlib.workflow - [exp.py:258] - Experiment 1 starts running ...
+[32709:MainThread](2026-03-04 16:45:56,053) INFO - qlib.workflow - [recorder.py:341] - Recorder def35a360be6477d81689545afad274e starts running under Experiment 1 ...
+ModuleNotFoundError. CatBoostModel are skipped. (optional: maybe installing CatBoostModel can fix it.)
+ModuleNotFoundError. XGBModel is skipped(optional: maybe installing xgboost can fix it).
+ModuleNotFoundError.  PyTorch models are skipped (optional: maybe installing pytorch can fix it).
+[32709:MainThread](2026-03-04 16:46:13,113) INFO - qlib.timer - [log.py:127] - Time cost: 13.254s | Loading data Done
+[32709:MainThread](2026-03-04 16:46:24,721) INFO - qlib.timer - [log.py:127] - Time cost: 11.350s | RobustZScoreNorm Done
+[32709:MainThread](2026-03-04 16:46:25,204) INFO - qlib.timer - [log.py:127] - Time cost: 0.482s | Fillna Done
+[32709:MainThread](2026-03-04 16:46:25,430) INFO - qlib.timer - [log.py:127] - Time cost: 0.139s | DropnaLabel Done
+/root/WaveFormer/qlib/qlib/data/dataset/processor.py:370: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  df[cols] = t
+[32709:MainThread](2026-03-04 16:46:25,720) INFO - qlib.timer - [log.py:127] - Time cost: 0.290s | CSRankNorm Done
+[32709:MainThread](2026-03-04 16:46:25,722) INFO - qlib.timer - [log.py:127] - Time cost: 12.608s | fit & process data Done
+[32709:MainThread](2026-03-04 16:46:25,722) INFO - qlib.timer - [log.py:127] - Time cost: 25.863s | Init data Done
+[32709:MainThread](2026-03-04 16:46:29,445) INFO - qlib.timer - [log.py:127] - Time cost: 3.710s | Loading data Done
+/usr/local/miniconda3/envs/py310/lib/python3.10/site-packages/numpy/lib/nanfunctions.py:1095: RuntimeWarning: All-NaN slice encountered
+  result = np.apply_along_axis(_nanmedian1d, axis, a, overwrite_input)
+[32709:MainThread](2026-03-04 16:46:31,678) INFO - qlib.timer - [log.py:127] - Time cost: 2.200s | RobustZScoreNorm Done
+[32709:MainThread](2026-03-04 16:46:31,905) INFO - qlib.timer - [log.py:127] - Time cost: 0.226s | Fillna Done
+[32709:MainThread](2026-03-04 16:46:31,906) INFO - qlib.timer - [log.py:127] - Time cost: 2.460s | fit & process data Done
+[32709:MainThread](2026-03-04 16:46:31,906) INFO - qlib.timer - [log.py:127] - Time cost: 6.172s | Init data Done
+[32709:MainThread](2026-03-04 16:46:31,906) WARNING - qlib.utils - [__init__.py:789] - The parameter `reweighter` with value `None` is ignored.
+/root/WaveFormer/qlib/qlib/contrib/model/pytorch_master_ts.py:236: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 0, train_loss 1.065927, valid_loss 0.995718 
+Epoch 1, train_loss 1.011109, valid_loss 0.991609 
+Epoch 2, train_loss 0.997329, valid_loss 0.986874 
+Epoch 3, train_loss 0.990690, valid_loss 0.984466 
+Epoch 4, train_loss 0.986691, valid_loss 0.983048 
+Epoch 5, train_loss 0.983556, valid_loss 0.982107 
+Epoch 6, train_loss 0.981340, valid_loss 0.981806 
+Epoch 7, train_loss 0.979147, valid_loss 0.982993 
+Epoch 8, train_loss 0.976865, valid_loss 0.981635 
+Epoch 9, train_loss 0.975251, valid_loss 0.983957 
+[32709:MainThread](2026-03-04 16:52:25,863) INFO - qlib.fill_placeholder - [__init__.py:739] - <PRED> lookes like a placeholder, but it can't match to any given values
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+/root/WaveFormer/qlib/qlib/contrib/model/pytorch_master_ts.py:236: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+[32709:MainThread](2026-03-04 16:52:36,310) INFO - qlib.workflow - [record_temp.py:198] - Signal record 'pred.pkl' has been saved as the artifact of the Experiment 1
+'The following are prediction results of the MASTERModel model.'
+                              0
+datetime   instrument          
+2017-01-03 SH600000   -0.103254
+           SH600005   -0.065317
+           SH600008    0.006711
+           SH600009    0.163069
+           SH600010   -0.065025
+{'IC': 0.060248062262440616,
+ 'ICIR': 0.4077959052336077,
+ 'Rank IC': 0.0757619381934844,
+ 'Rank ICIR': 0.5225305951236044}
+[32709:MainThread](2026-03-04 16:52:37,349) INFO - qlib.backtest caller - [__init__.py:93] - Create new exchange
+[32709:MainThread](2026-03-04 16:52:41,556) WARNING - qlib.online operator - [exchange.py:219] - $close field data contains nan.
+[32709:MainThread](2026-03-04 16:52:41,557) WARNING - qlib.online operator - [exchange.py:219] - $close field data contains nan.
+[32709:MainThread](2026-03-04 16:52:44,290) WARNING - qlib.BaseExecutor - [executor.py:121] - `common_infra` is not set for <qlib.backtest.executor.SimulatorExecutor object at 0x7f13f5805750>
+backtest loop:   0%|                                              | 0/871 [00:00<?, ?it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop: 100%|████████████████████████████████████| 871/871 [00:11<00:00, 76.37it/s]
+[32709:MainThread](2026-03-04 16:52:55,750) INFO - qlib.workflow - [record_temp.py:515] - Portfolio analysis record 'port_analysis_1day.pkl' has been saved as the artifact of the Experiment 1
+'The following are analysis results of benchmark return(1day).'
+                       risk
+mean               0.000477
+std                0.012295
+annualized_return  0.113561
+information_ratio  0.598699
+max_drawdown      -0.370479
+'The following are analysis results of the excess return without cost(1day).'
+                       risk
+mean               0.000688
+std                0.006042
+annualized_return  0.163700
+information_ratio  1.756316
+max_drawdown      -0.065885
+'The following are analysis results of the excess return with cost(1day).'
+                       risk
+mean              -0.000645
+std                0.006031
+annualized_return -0.153439
+information_ratio -1.649140
+max_drawdown      -0.555251
+[32709:MainThread](2026-03-04 16:52:55,760) INFO - qlib.workflow - [record_temp.py:540] - Indicator analysis record 'indicator_analysis_1day.pkl' has been saved as the artifact of the Experiment 1
+'The following are analysis results of indicators(1day).'
+     value
+ffr    1.0
+pa     0.0
+pos    0.0
+[32709:MainThread](2026-03-04 16:52:56,989) INFO - qlib.timer - [log.py:127] - Time cost: 0.000s | waiting `async_log` Done

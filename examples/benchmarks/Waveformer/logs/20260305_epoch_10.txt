@@ -1,0 +1,127 @@
+py310) root@cc2ea47de032:~/WaveFormer/qlib/examples/benchmarks/Waveformer# qrun workflow_config_waveformer_Alpha158.yaml 
+[12834:MainThread](2026-03-05 12:38:10,901) INFO - qlib.Initialization - [config.py:416] - default_conf: client.
+[12834:MainThread](2026-03-05 12:38:10,904) INFO - qlib.Initialization - [__init__.py:74] - qlib successfully initialized based on client settings.
+[12834:MainThread](2026-03-05 12:38:10,904) INFO - qlib.Initialization - [__init__.py:76] - data_path={'__DEFAULT_FREQ': PosixPath('/root/.qlib/qlib_data/cn_data')}
+[12834:MainThread](2026-03-05 12:38:10,906) INFO - qlib.workflow - [exp.py:258] - Experiment 1 starts running ...
+[12834:MainThread](2026-03-05 12:38:10,951) INFO - qlib.workflow - [recorder.py:341] - Recorder 181fd3a10790474b8a8a4d0e4d87641a starts running under Experiment 1 ...
+ModuleNotFoundError. CatBoostModel are skipped. (optional: maybe installing CatBoostModel can fix it.)
+ModuleNotFoundError. XGBModel is skipped(optional: maybe installing xgboost can fix it).
+ModuleNotFoundError.  PyTorch models are skipped (optional: maybe installing pytorch can fix it).
+[12834:MainThread](2026-03-05 12:38:29,615) INFO - qlib.timer - [log.py:127] - Time cost: 14.846s | Loading data Done
+[12834:MainThread](2026-03-05 12:38:43,174) INFO - qlib.timer - [log.py:127] - Time cost: 13.248s | RobustZScoreNorm Done
+[12834:MainThread](2026-03-05 12:38:43,686) INFO - qlib.timer - [log.py:127] - Time cost: 0.512s | Fillna Done
+[12834:MainThread](2026-03-05 12:38:43,974) INFO - qlib.timer - [log.py:127] - Time cost: 0.185s | DropnaLabel Done
+/root/WaveFormer/qlib/qlib/data/dataset/processor.py:370: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  df[cols] = t
+[12834:MainThread](2026-03-05 12:38:44,302) INFO - qlib.timer - [log.py:127] - Time cost: 0.328s | CSRankNorm Done
+[12834:MainThread](2026-03-05 12:38:44,304) INFO - qlib.timer - [log.py:127] - Time cost: 14.688s | fit & process data Done
+[12834:MainThread](2026-03-05 12:38:44,304) INFO - qlib.timer - [log.py:127] - Time cost: 29.535s | Init data Done
+[12834:MainThread](2026-03-05 12:38:48,637) INFO - qlib.timer - [log.py:127] - Time cost: 4.306s | Loading data Done
+/usr/local/miniconda3/envs/py310/lib/python3.10/site-packages/numpy/lib/nanfunctions.py:1095: RuntimeWarning: All-NaN slice encountered
+  result = np.apply_along_axis(_nanmedian1d, axis, a, overwrite_input)
+[12834:MainThread](2026-03-05 12:38:52,923) INFO - qlib.timer - [log.py:127] - Time cost: 4.214s | RobustZScoreNorm Done
+[12834:MainThread](2026-03-05 12:38:53,347) INFO - qlib.timer - [log.py:127] - Time cost: 0.423s | Fillna Done
+[12834:MainThread](2026-03-05 12:38:53,347) INFO - qlib.timer - [log.py:127] - Time cost: 4.710s | fit & process data Done
+[12834:MainThread](2026-03-05 12:38:53,348) INFO - qlib.timer - [log.py:127] - Time cost: 9.018s | Init data Done
+[12834:MainThread](2026-03-05 12:38:53,348) WARNING - qlib.utils - [__init__.py:789] - The parameter `reweighter` with value `None` is ignored.
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch: 0
+Epoch 0, train_loss 1.055921, valid ic 0.0654, icir 0.415, rankic 0.0625, rankicir 0.402.
+Epoch: 1
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 1, train_loss 1.004788, valid ic 0.0948, icir 0.554, rankic 0.0901, rankicir 0.533.
+Epoch: 2
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 2, train_loss 0.993450, valid ic 0.1068, icir 0.592, rankic 0.1022, rankicir 0.572.
+Epoch: 3
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 3, train_loss 0.987819, valid ic 0.1133, icir 0.636, rankic 0.1093, rankicir 0.624.
+Epoch: 4
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 4, train_loss 0.984474, valid ic 0.1163, icir 0.634, rankic 0.1112, rankicir 0.609.
+Epoch: 5
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 5, train_loss 0.981724, valid ic 0.1240, icir 0.675, rankic 0.1199, rankicir 0.662.
+Epoch: 6
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 6, train_loss 0.979867, valid ic 0.1241, icir 0.677, rankic 0.1201, rankicir 0.663.
+Epoch: 7
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 7, train_loss 0.977304, valid ic 0.1195, icir 0.651, rankic 0.1159, rankicir 0.639.
+Epoch: 8
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 8, train_loss 0.975300, valid ic 0.1296, icir 0.706, rankic 0.1252, rankicir 0.689.
+Epoch: 9
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 9, train_loss 0.973261, valid ic 0.1178, icir 0.644, rankic 0.1151, rankicir 0.635.
+[12834:MainThread](2026-03-05 12:46:10,375) INFO - qlib.fill_placeholder - [__init__.py:739] - <PRED> lookes like a placeholder, but it can't match to any given values
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Epoch: 9
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+[12834:MainThread](2026-03-05 12:46:23,473) INFO - qlib.workflow - [record_temp.py:198] - Signal record 'pred.pkl' has been saved as the artifact of the Experiment 1
+'The following are prediction results of the WaveFormerQlibModel model.'
+                          score
+datetime   instrument          
+2017-01-03 SH600000   -0.106138
+           SH600005   -0.096954
+           SH600008   -0.040205
+           SH600009    0.148988
+           SH600010   -0.152234
+{'IC': 0.07150476891668293,
+ 'ICIR': 0.5039752441735597,
+ 'Rank IC': 0.08139624613229321,
+ 'Rank ICIR': 0.5576053836303477}
+[12834:MainThread](2026-03-05 12:46:24,593) INFO - qlib.backtest caller - [__init__.py:93] - Create new exchange
+[12834:MainThread](2026-03-05 12:46:29,722) WARNING - qlib.online operator - [exchange.py:219] - $close field data contains nan.
+[12834:MainThread](2026-03-05 12:46:29,724) WARNING - qlib.online operator - [exchange.py:219] - $close field data contains nan.
+[12834:MainThread](2026-03-05 12:46:32,935) WARNING - qlib.BaseExecutor - [executor.py:121] - `common_infra` is not set for <qlib.backtest.executor.SimulatorExecutor object at 0x7f986e3ea710>
+backtest loop:   0%|                                                                          | 0/871 [00:00<?, ?it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop: 100%|████████████████████████████████████████████████████████████████| 871/871 [00:12<00:00, 70.08it/s]
+[12834:MainThread](2026-03-05 12:46:45,417) INFO - qlib.workflow - [record_temp.py:515] - Portfolio analysis record 'port_analysis_1day.pkl' has been saved as the artifact of the Experiment 1
+'The following are analysis results of benchmark return(1day).'
+                       risk
+mean               0.000477
+std                0.012295
+annualized_return  0.113561
+information_ratio  0.598699
+max_drawdown      -0.370479
+'The following are analysis results of the excess return without cost(1day).'
+                       risk
+mean               0.000826
+std                0.005809
+annualized_return  0.196634
+information_ratio  2.194123
+max_drawdown      -0.084430
+'The following are analysis results of the excess return with cost(1day).'
+                       risk
+mean              -0.000486
+std                0.005801
+annualized_return -0.115574
+information_ratio -1.291434
+max_drawdown      -0.530865
+[12834:MainThread](2026-03-05 12:46:45,427) INFO - qlib.workflow - [record_temp.py:540] - Indicator analysis record 'indicator_analysis_1day.pkl' has been saved as the artifact of the Experiment 1
+'The following are analysis results of indicators(1day).'
+     value
+ffr    1.0
+pa     0.0
+pos    0.0
+[12834:MainThread](2026-03-05 12:46:46,657) INFO - qlib.timer - [log.py:127] - Time cost: 0.000s | waiting `async_log` Done

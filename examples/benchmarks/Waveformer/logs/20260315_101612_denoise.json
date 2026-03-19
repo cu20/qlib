@@ -1,0 +1,25 @@
+{
+  "timestamp": "20260315_101612",
+  "tag": "denoise",
+  "config": {
+    "use_wavelet_denoise": true,
+    "wavelet": "haar",
+    "denoise_level": 1,
+    "threshold_scale": 0.5,
+    "threshold_mode": "soft",
+    "seeds": [
+      0
+    ],
+    "notes": ""
+  },
+  "metrics": {
+    "IC": "0.0718",
+    "ICIR": "0.5076",
+    "Rank IC": "0.0806",
+    "Rank ICIR": "0.5525",
+    "1day.excess_return_without_cost.annualized_return": "0.1356",
+    "1day.excess_return_without_cost.information_ratio": "1.5448",
+    "1day.excess_return_with_cost.annualized_return": "0.1207",
+    "1day.excess_return_with_cost.information_ratio": "1.3747"
+  }
+}

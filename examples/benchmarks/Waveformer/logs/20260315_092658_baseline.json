@@ -1,0 +1,25 @@
+{
+  "timestamp": "20260315_092658",
+  "tag": "baseline",
+  "config": {
+    "use_wavelet_denoise": false,
+    "wavelet": null,
+    "denoise_level": null,
+    "threshold_scale": null,
+    "threshold_mode": null,
+    "seeds": [
+      0
+    ],
+    "notes": "ablation baseline"
+  },
+  "metrics": {
+    "IC": "0.0715",
+    "ICIR": "0.5040",
+    "Rank IC": "0.0814",
+    "Rank ICIR": "0.5576",
+    "1day.excess_return_without_cost.annualized_return": "0.1716",
+    "1day.excess_return_without_cost.information_ratio": "1.8963",
+    "1day.excess_return_with_cost.annualized_return": "0.1572",
+    "1day.excess_return_with_cost.information_ratio": "1.7373"
+  }
+}

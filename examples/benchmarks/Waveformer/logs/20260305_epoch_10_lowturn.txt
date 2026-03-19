@@ -1,0 +1,299 @@
+(py310) root@cc2ea47de032:~/WaveFormer/qlib/examples/benchmarks/Waveformer# qrun workflow_config_waveformer_Alpha158_lowturn.yaml 
+[21872:MainThread](2026-03-05 13:18:05,882) INFO - qlib.Initialization - [config.py:416] - default_conf: client.
+[21872:MainThread](2026-03-05 13:18:05,885) INFO - qlib.Initialization - [__init__.py:74] - qlib successfully initialized based on client settings.
+[21872:MainThread](2026-03-05 13:18:05,885) INFO - qlib.Initialization - [__init__.py:76] - data_path={'__DEFAULT_FREQ': PosixPath('/root/.qlib/qlib_data/cn_data')}
+[21872:MainThread](2026-03-05 13:18:05,887) INFO - qlib.workflow - [exp.py:258] - Experiment 1 starts running ...
+[21872:MainThread](2026-03-05 13:18:05,934) INFO - qlib.workflow - [recorder.py:341] - Recorder 405ec6deb5fd4ba59a5159daa6e7e3eb starts running under Experiment 1 ...
+ModuleNotFoundError. CatBoostModel are skipped. (optional: maybe installing CatBoostModel can fix it.)
+ModuleNotFoundError. XGBModel is skipped(optional: maybe installing xgboost can fix it).
+ModuleNotFoundError.  PyTorch models are skipped (optional: maybe installing pytorch can fix it).
+[21872:MainThread](2026-03-05 13:18:26,983) INFO - qlib.timer - [log.py:127] - Time cost: 17.027s | Loading data Done
+[21872:MainThread](2026-03-05 13:18:40,266) INFO - qlib.timer - [log.py:127] - Time cost: 12.931s | RobustZScoreNorm Done
+[21872:MainThread](2026-03-05 13:18:41,313) INFO - qlib.timer - [log.py:127] - Time cost: 1.046s | Fillna Done
+[21872:MainThread](2026-03-05 13:18:41,723) INFO - qlib.timer - [log.py:127] - Time cost: 0.248s | DropnaLabel Done
+/root/WaveFormer/qlib/qlib/data/dataset/processor.py:370: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  df[cols] = t
+[21872:MainThread](2026-03-05 13:18:42,185) INFO - qlib.timer - [log.py:127] - Time cost: 0.461s | CSRankNorm Done
+[21872:MainThread](2026-03-05 13:18:42,187) INFO - qlib.timer - [log.py:127] - Time cost: 15.204s | fit & process data Done
+[21872:MainThread](2026-03-05 13:18:42,188) INFO - qlib.timer - [log.py:127] - Time cost: 32.232s | Init data Done
+[21872:MainThread](2026-03-05 13:18:47,218) INFO - qlib.timer - [log.py:127] - Time cost: 4.998s | Loading data Done
+/usr/local/miniconda3/envs/py310/lib/python3.10/site-packages/numpy/lib/nanfunctions.py:1095: RuntimeWarning: All-NaN slice encountered
+  result = np.apply_along_axis(_nanmedian1d, axis, a, overwrite_input)
+[21872:MainThread](2026-03-05 13:18:50,201) INFO - qlib.timer - [log.py:127] - Time cost: 2.911s | RobustZScoreNorm Done
+[21872:MainThread](2026-03-05 13:18:50,447) INFO - qlib.timer - [log.py:127] - Time cost: 0.245s | Fillna Done
+[21872:MainThread](2026-03-05 13:18:50,447) INFO - qlib.timer - [log.py:127] - Time cost: 3.229s | fit & process data Done
+[21872:MainThread](2026-03-05 13:18:50,448) INFO - qlib.timer - [log.py:127] - Time cost: 8.229s | Init data Done
+[21872:MainThread](2026-03-05 13:18:50,448) WARNING - qlib.utils - [__init__.py:789] - The parameter `reweighter` with value `None` is ignored.
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch: 0
+Epoch 0, train_loss 1.055921, valid ic 0.0654, icir 0.415, rankic 0.0625, rankicir 0.402.
+Epoch: 1
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 1, train_loss 1.004788, valid ic 0.0948, icir 0.554, rankic 0.0901, rankicir 0.533.
+Epoch: 2
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 2, train_loss 0.993450, valid ic 0.1068, icir 0.592, rankic 0.1022, rankicir 0.572.
+Epoch: 3
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 3, train_loss 0.987819, valid ic 0.1133, icir 0.636, rankic 0.1093, rankicir 0.624.
+Epoch: 4
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 4, train_loss 0.984474, valid ic 0.1163, icir 0.634, rankic 0.1112, rankicir 0.609.
+Epoch: 5
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 5, train_loss 0.981724, valid ic 0.1240, icir 0.675, rankic 0.1199, rankicir 0.662.
+Epoch: 6
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 6, train_loss 0.979867, valid ic 0.1241, icir 0.677, rankic 0.1201, rankicir 0.663.
+Epoch: 7
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 7, train_loss 0.977304, valid ic 0.1195, icir 0.651, rankic 0.1159, rankicir 0.639.
+Epoch: 8
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 8, train_loss 0.975300, valid ic 0.1296, icir 0.706, rankic 0.1252, rankicir 0.689.
+Epoch: 9
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+Epoch 9, train_loss 0.973261, valid ic 0.1178, icir 0.644, rankic 0.1151, rankicir 0.635.
+[21872:MainThread](2026-03-05 13:26:12,688) INFO - qlib.fill_placeholder - [__init__.py:739] - <PRED> lookes like a placeholder, but it can't match to any given values
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Epoch: 9
+/root/WaveFormer/base_model.py:38: FutureWarning: The default dtype for empty Series will be 'object' instead of 'float64' in a future version. Specify a dtype explicitly to silence this warning.
+  self.daily_count = pd.Series(index=self.data_source.get_index()).groupby("datetime").size().values
+[21872:MainThread](2026-03-05 13:26:25,936) INFO - qlib.workflow - [record_temp.py:198] - Signal record 'pred.pkl' has been saved as the artifact of the Experiment 1
+'The following are prediction results of the WaveFormerQlibModel model.'
+                          score
+datetime   instrument          
+2017-01-03 SH600000   -0.106138
+           SH600005   -0.096954
+           SH600008   -0.040205
+           SH600009    0.148988
+           SH600010   -0.152234
+{'IC': 0.07150476891668293,
+ 'ICIR': 0.5039752441735597,
+ 'Rank IC': 0.08139624613229321,
+ 'Rank ICIR': 0.5576053836303477}
+[21872:MainThread](2026-03-05 13:26:26,893) INFO - qlib.backtest caller - [__init__.py:93] - Create new exchange
+[21872:MainThread](2026-03-05 13:26:31,697) WARNING - qlib.online operator - [exchange.py:219] - $close field data contains nan.
+[21872:MainThread](2026-03-05 13:26:31,698) WARNING - qlib.online operator - [exchange.py:219] - $close field data contains nan.
+[21872:MainThread](2026-03-05 13:26:34,769) WARNING - qlib.BaseExecutor - [executor.py:121] - `common_infra` is not set for <qlib.backtest.executor.SimulatorExecutor object at 0x7f914ba77490>
+backtest loop:   0%|                                                          | 0/871 [00:00<?, ?it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:   1%|▋                                               | 13/871 [00:00<00:06, 129.91it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:   4%|██▏                                             | 39/871 [00:00<00:06, 119.68it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:   6%|██▉                                             | 54/871 [00:00<00:06, 124.56it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:   8%|███▋                                            | 67/871 [00:00<00:06, 124.56it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:   9%|████▍                                           | 81/871 [00:00<00:06, 127.12it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  13%|█████▉                                         | 109/871 [00:00<00:05, 128.27it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  14%|██████▋                                        | 124/871 [00:00<00:05, 131.65it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  16%|███████▌                                       | 139/871 [00:01<00:05, 133.96it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  19%|█████████                                      | 169/871 [00:01<00:05, 134.73it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  21%|█████████▉                                     | 184/871 [00:01<00:05, 135.58it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  23%|██████████▋                                    | 199/871 [00:01<00:04, 135.57it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  26%|████████████▎                                  | 229/871 [00:01<00:04, 134.96it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  28%|█████████████                                  | 243/871 [00:01<00:04, 135.47it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  31%|██████████████▌                                | 271/871 [00:02<00:04, 124.75it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  33%|███████████████▎                               | 284/871 [00:02<00:04, 119.06it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  34%|████████████████                               | 297/871 [00:02<00:04, 120.25it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  40%|██████████████████▋                            | 347/871 [00:02<00:04, 119.83it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  41%|███████████████████▍                           | 360/871 [00:02<00:04, 120.10it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  43%|████████████████████▏                          | 373/871 [00:02<00:04, 121.92it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  45%|████████████████████▉                          | 388/871 [00:03<00:03, 125.97it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  50%|███████████████████████▎                       | 432/871 [00:03<00:03, 129.19it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  59%|███████████████████████████▊                   | 515/871 [00:04<00:02, 124.71it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  61%|████████████████████████████▌                  | 529/871 [00:04<00:02, 128.93it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  62%|█████████████████████████████▏                 | 542/871 [00:04<00:02, 126.00it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  65%|██████████████████████████████▋                | 568/871 [00:04<00:02, 122.33it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  67%|███████████████████████████████▎               | 581/871 [00:04<00:02, 122.28it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  70%|████████████████████████████████▊              | 608/871 [00:04<00:02, 122.62it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  71%|█████████████████████████████████▌             | 621/871 [00:04<00:02, 116.74it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  75%|███████████████████████████████████            | 649/871 [00:05<00:01, 123.55it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  79%|█████████████████████████████████████▏         | 689/871 [00:05<00:01, 121.43it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  81%|█████████████████████████████████████▉         | 704/871 [00:05<00:01, 124.26it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  83%|██████████████████████████████████████▊        | 719/871 [00:05<00:01, 127.40it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  84%|███████████████████████████████████████▍       | 732/871 [00:05<00:01, 127.42it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  86%|████████████████████████████████████████▏      | 745/871 [00:05<00:00, 127.01it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  87%|████████████████████████████████████████▉      | 758/871 [00:06<00:00, 127.80it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  89%|█████████████████████████████████████████▋     | 772/871 [00:06<00:00, 129.14it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  90%|██████████████████████████████████████████▍    | 787/871 [00:06<00:00, 130.25it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  94%|███████████████████████████████████████████▉   | 815/871 [00:06<00:00, 129.10it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  97%|█████████████████████████████████████████████▍ | 842/871 [00:06<00:00, 130.35it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop:  98%|██████████████████████████████████████████████▏| 856/871 [00:06<00:00, 125.32it/s]/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+/root/WaveFormer/qlib/qlib/utils/index_data.py:481: RuntimeWarning: Mean of empty slice
+  return np.nanmean(self.data)
+backtest loop: 100%|███████████████████████████████████████████████| 871/871 [00:06<00:00, 126.09it/s]
+[21872:MainThread](2026-03-05 13:26:41,724) INFO - qlib.workflow - [record_temp.py:515] - Portfolio analysis record 'port_analysis_1day.pkl' has been saved as the artifact of the Experiment 1
+'The following are analysis results of benchmark return(1day).'
+                       risk
+mean               0.000477
+std                0.012295
+annualized_return  0.113561
+information_ratio  0.598699
+max_drawdown      -0.370479
+'The following are analysis results of the excess return without cost(1day).'
+                       risk
+mean               0.000597
+std                0.005619
+annualized_return  0.142101
+information_ratio  1.639386
+max_drawdown      -0.098265
+'The following are analysis results of the excess return with cost(1day).'
+                       risk
+mean               0.000465
+std                0.005617
+annualized_return  0.110585
+information_ratio  1.276263
+max_drawdown      -0.130675
+[21872:MainThread](2026-03-05 13:26:41,733) INFO - qlib.workflow - [record_temp.py:540] - Indicator analysis record 'indicator_analysis_1day.pkl' has been saved as the artifact of the Experiment 1
+'The following are analysis results of indicators(1day).'
+     value
+ffr    1.0
+pa     0.0
+pos    0.0
+[21872:MainThread](2026-03-05 13:26:42,158) INFO - qlib.timer - [log.py:127] - Time cost: 0.000s | waiting `async_log` Done
