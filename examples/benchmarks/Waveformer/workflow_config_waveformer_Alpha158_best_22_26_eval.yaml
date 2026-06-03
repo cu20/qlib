@@ -7,7 +7,7 @@ data_handler_config: &data_handler_config
     start_time: 2008-01-01
     end_time: 2026-03-13
     fit_start_time: 2008-01-01
-    fit_end_time: 2020-03-31
+    fit_end_time: 2019-12-31
     instruments: *market
     infer_processors:
         - class: RobustZScoreNorm
@@ -19,12 +19,15 @@ data_handler_config: &data_handler_config
               fields_group: feature
     learn_processors:
         - class: DropnaLabel
+        - class: CSRankNorm
+          kwargs:
+              fields_group: label
     label: ["Ref($close, -5) / Ref($close, -1) - 1"]
 market_data_handler_config: &market_data_handler_config
     start_time: 2008-01-01
     end_time: 2026-03-13
     fit_start_time: 2008-01-01
-    fit_end_time: 2020-03-31
+    fit_end_time: 2019-12-31
     instruments: *market
     infer_processors:
         - class: RobustZScoreNorm
@@ -36,31 +39,36 @@ market_data_handler_config: &market_data_handler_config
               fields_group: feature
 port_analysis_config: &port_analysis_config
     strategy:
-        class: TopkDropoutStrategy
-        module_path: qlib.contrib.strategy
+        class: TimingRLTopkStrategy
+        module_path: timing_rl_strategy
         kwargs:
             signal: <PRED>
-            topk: 30
-            n_drop: 30
+            topk: 22
+            n_drop: 8
+            hold_thresh: 14
+            action_mode: "sample"
+            sample_temperature: 0.50
+            debug_log: true
+            debug_log_warmup_steps: 20
+            debug_log_interval: 50
+            policy_path: "rl_models/timing_policy_v5_ppo_risk_only.json"
+            default_topk: 22
+            default_n_drop: 8
+            default_risk_degree: 0.8
     backtest:
-        start_time: 2025-05-17
-        end_time: 2026-03-03
+        start_time: 2022-01-01
+        end_time: 2026-03-13
         account: 100000000
         benchmark: *benchmark
         exchange_kwargs:
             deal_price: close
 task:
-    # 仅当 dataset.use_pre_norm_wavelet: true 时生效；可在此微调 pre 小波强度（out=(1-blend)*raw+blend*denoised）
-    # 改 blend 后请删 handler_*_pre_norm.pkl 以免旧缓存
-    # pre_norm_wavelet:
-    #     blend: 0.15
-    #     threshold_scale: 0.28
     model:
         class: WaveFormerQlibModel
         module_path: qlib.contrib.model.waveformer_ts
         kwargs:
             seed: 0
-            n_epochs: 40
+            n_epochs: 10
             lr: 0.00001
             train_stop_loss_thred: 0.95
             d_feat: 158
@@ -70,27 +78,20 @@ task:
             gate_input_start_index: 158
             gate_input_end_index: 221
             beta: 5
-            save_prefix: "csi300_after_norm"
-            # 小波去噪（默认关闭，由 main_waveformer.py 的消融逻辑动态开启）
-            use_wavelet_denoise: true
+            save_prefix: "csi300_best"
+            # Evaluate best checkpoint directly (no in-model denoise)
+            use_wavelet_denoise: false
             wavelet: "haar"
             denoise_level: 1
             threshold_method: "bayes"
             threshold_mode: "soft"
             threshold_scale: 0.3
             denoise_blend: 0.25
-            # Adaptive blend: stronger denoise only on high-noise samples
-            adaptive_blend: true
-            adaptive_target_ratio: 0.08
-            adaptive_sharpness: 12.0
-            adaptive_blend_min: 0.03
-            adaptive_blend_max: 0.55
             denoise_finest_only: true
             level_dependent_scale: true
             use_edge_pad: true
             use_boundary_smooth: false
             boundary_smooth_win: 1
-            wavelet_collect_stats: true
     dataset:
         class: MASTERTSDatasetH
         module_path: qlib.contrib.data.dataset
@@ -101,24 +102,23 @@ task:
                 module_path: qlib.contrib.data.handler
                 kwargs: *data_handler_config
             segments:
-                train: [2008-01-01, 2020-03-31]
-                valid: [2020-04-01, 2020-06-30]
-                test: [2020-07-01, 2026-03-13]
+                train: [2008-01-01, 2019-12-31]
+                valid: [2020-01-01, 2021-12-31]
+                test: [2022-01-01, 2026-03-13]
             step_len: 8
             market_data_handler_config: *market_data_handler_config
-    record: 
+    record:
         - class: SignalRecord
           module_path: qlib.workflow.record_temp
-          kwargs: 
+          kwargs:
             model: <MODEL>
             dataset: <DATASET>
         - class: SigAnaRecord
           module_path: qlib.workflow.record_temp
-          kwargs: 
+          kwargs:
             ana_long_short: False
             ann_scaler: 252
         - class: PortAnaRecord
           module_path: qlib.workflow.record_temp
-          kwargs: 
+          kwargs:
             config: *port_analysis_config
-

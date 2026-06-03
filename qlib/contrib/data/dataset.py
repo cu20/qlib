@@ -419,6 +419,19 @@ class marketDataHandler(DataHandlerLP):
         Get market feature (63-dimensional), which are csi100 index, csi300 index, csi500 index. 
         The first list is the name to be shown for the feature, and the second list is the feature to fecth.
         """
+        # MASTER-aligned market liquidity proxy: use $volume.
+        symbols = ["sh000300", "sh000903", "sh000905"]
+        windows = [5, 10, 20, 30, 60]
+        feats = []
+        for sym in symbols:
+            feats.append(f'Mask($close/Ref($close,1)-1, "{sym}")')
+            for d in windows:
+                feats.append(f'Mask(Mean($close/Ref($close,1)-1,{d}), "{sym}")')
+                feats.append(f'Mask(Std($close/Ref($close,1)-1,{d}), "{sym}")')
+                feats.append(f'Mask(Mean($volume,{d})/$volume, "{sym}")')
+                feats.append(f'Mask(Std($volume,{d})/$volume, "{sym}")')
+        return (feats, feats)
+
         return (
             ['Mask($close/Ref($close,1)-1, "sh000300")', 'Mask(Mean($close/Ref($close,1)-1,5), "sh000300")', 'Mask(Std($close/Ref($close,1)-1,5), "sh000300")', 'Mask(Mean($volume,5)/$volume, "sh000300")', 'Mask(Std($volume,5)/$volume, "sh000300")', 'Mask(Mean($close/Ref($close,1)-1,10), "sh000300")', 'Mask(Std($close/Ref($close,1)-1,10), "sh000300")', 'Mask(Mean($volume,10)/$volume, "sh000300")', 'Mask(Std($volume,10)/$volume, "sh000300")', 'Mask(Mean($close/Ref($close,1)-1,20), "sh000300")', 'Mask(Std($close/Ref($close,1)-1,20), "sh000300")', 'Mask(Mean($volume,20)/$volume, "sh000300")', 'Mask(Std($volume,20)/$volume, "sh000300")', 'Mask(Mean($close/Ref($close,1)-1,30), "sh000300")', 'Mask(Std($close/Ref($close,1)-1,30), "sh000300")', 'Mask(Mean($volume,30)/$volume, "sh000300")', 'Mask(Std($volume,30)/$volume, "sh000300")', 'Mask(Mean($close/Ref($close,1)-1,60), "sh000300")', 'Mask(Std($close/Ref($close,1)-1,60), "sh000300")', 'Mask(Mean($volume,60)/$volume, "sh000300")', 'Mask(Std($volume,60)/$volume, "sh000300")',
                 'Mask($close/Ref($close,1)-1, "sh000903")', 'Mask(Mean($close/Ref($close,1)-1,5), "sh000903")', 'Mask(Std($close/Ref($close,1)-1,5), "sh000903")', 'Mask(Mean($volume,5)/$volume, "sh000903")', 'Mask(Std($volume,5)/$volume, "sh000903")', 'Mask(Mean($close/Ref($close,1)-1,10), "sh000903")', 'Mask(Std($close/Ref($close,1)-1,10), "sh000903")', 'Mask(Mean($volume,10)/$volume, "sh000903")', 'Mask(Std($volume,10)/$volume, "sh000903")', 'Mask(Mean($close/Ref($close,1)-1,20), "sh000903")', 'Mask(Std($close/Ref($close,1)-1,20), "sh000903")', 'Mask(Mean($volume,20)/$volume, "sh000903")', 'Mask(Std($volume,20)/$volume, "sh000903")', 'Mask(Mean($close/Ref($close,1)-1,30), "sh000903")', 'Mask(Std($close/Ref($close,1)-1,30), "sh000903")', 'Mask(Mean($volume,30)/$volume, "sh000903")', 'Mask(Std($volume,30)/$volume, "sh000903")', 'Mask(Mean($close/Ref($close,1)-1,60), "sh000903")', 'Mask(Std($close/Ref($close,1)-1,60), "sh000903")', 'Mask(Mean($volume,60)/$volume, "sh000903")', 'Mask(Std($volume,60)/$volume, "sh000903")',
@@ -469,7 +482,10 @@ class MASTERTSDatasetH(TSDatasetH):
             marketData = self.get_market_information(ext_slice)
             cols = pd.MultiIndex.from_tuples([("feature", feature) for feature in marketData.columns])
             marketData = pd.DataFrame(marketData.values, columns = cols, index = marketData.index)
-            data = data.iloc[:,:-1].join(marketData).join(data.iloc[:,-1])
+            # Keep all label columns (single-head or multi-head labels).
+            feature_part = data.loc[:, pd.IndexSlice["feature", :]]
+            label_part = data.loc[:, pd.IndexSlice["label", :]]
+            data = feature_part.join(marketData).join(label_part)
         #################################################################################
         flt_kwargs = copy.deepcopy(kwargs)
         if flt_col is not None:

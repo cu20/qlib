@@ -22,7 +22,7 @@ data_handler_config: &data_handler_config
         - class: CSRankNorm
           kwargs:
               fields_group: label
-    label: ["Ref($close, -5) / Ref($close, -1) - 1"] 
+    label: ["Ref($close, -5) / Ref($close, -1) - 1"]
 market_data_handler_config: &market_data_handler_config
     start_time: 2008-01-01
     end_time: 2020-08-01
@@ -43,12 +43,8 @@ port_analysis_config: &port_analysis_config
         module_path: qlib.contrib.strategy
         kwargs:
             signal: <PRED>
-            topk: 30           # 与 WaveFormer 低换手版本完全一致
-            n_drop: 2
-            hold_thresh: 10
-            risk_degree: 0.8
-            method_buy: top
-            method_sell: bottom
+            topk: 30
+            n_drop: 30
     backtest:
         start_time: 2017-01-01
         end_time: 2020-08-01
@@ -58,20 +54,38 @@ port_analysis_config: &port_analysis_config
             deal_price: close
 task:
     model:
-        class: MASTERModel
-        module_path: qlib.contrib.model.pytorch_master_ts
+        class: WaveFormerQlibModel
+        module_path: qlib.contrib.model.waveformer_ts
         kwargs:
             seed: 0
             n_epochs: 10
             lr: 0.00001
             train_stop_loss_thred: 0.95
-            market: *market
-            benchmark: *benchmark
-            save_prefix: *market
+            d_feat: 158
+            d_model: 256
+            t_nhead: 4
+            s_nhead: 2
+            gate_input_start_index: 158
+            gate_input_end_index: 221
+            beta: 5
+            save_prefix: "csi300_best"
+            use_wavelet_denoise: false
+            wavelet: "haar"
+            denoise_level: 1
+            threshold_method: "bayes"
+            threshold_mode: "soft"
+            threshold_scale: 0.3
+            denoise_blend: 0.25
+            denoise_finest_only: true
+            level_dependent_scale: true
+            use_edge_pad: true
+            use_boundary_smooth: false
+            boundary_smooth_win: 1
     dataset:
         class: MASTERTSDatasetH
         module_path: qlib.contrib.data.dataset
         kwargs:
+            use_pre_norm_wavelet: false
             handler:
                 class: Alpha158
                 module_path: qlib.contrib.data.handler
@@ -82,19 +96,18 @@ task:
                 test: [2017-01-01, 2020-08-01]
             step_len: 8
             market_data_handler_config: *market_data_handler_config
-    record: 
+    record:
         - class: SignalRecord
           module_path: qlib.workflow.record_temp
-          kwargs: 
+          kwargs:
             model: <MODEL>
             dataset: <DATASET>
         - class: SigAnaRecord
           module_path: qlib.workflow.record_temp
-          kwargs: 
+          kwargs:
             ana_long_short: False
             ann_scaler: 252
         - class: PortAnaRecord
           module_path: qlib.workflow.record_temp
-          kwargs: 
+          kwargs:
             config: *port_analysis_config
-

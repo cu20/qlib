@@ -2,12 +2,12 @@ qlib_init:
     provider_uri: "~/.qlib/qlib_data/cn_data"
     region: cn
 market: &market csi300
-benchmark: &benchmark SH000300
+benchmark: &benchmark sh000300
 data_handler_config: &data_handler_config
     start_time: 2008-01-01
-    end_time: 2020-08-01
+    end_time: 2022-12-31
     fit_start_time: 2008-01-01
-    fit_end_time: 2014-12-31
+    fit_end_time: 2020-03-31
     instruments: *market
     infer_processors:
         - class: RobustZScoreNorm
@@ -19,15 +19,15 @@ data_handler_config: &data_handler_config
               fields_group: feature
     learn_processors:
         - class: DropnaLabel
-        - class: CSRankNorm
-          kwargs:
-              fields_group: label
+        #- class: CSZScoreNorm
+          #kwargs:
+              #fields_group: label
     label: ["Ref($close, -5) / Ref($close, -1) - 1"] 
 market_data_handler_config: &market_data_handler_config
     start_time: 2008-01-01
-    end_time: 2020-08-01
+    end_time: 2022-12-31
     fit_start_time: 2008-01-01
-    fit_end_time: 2014-12-31
+    fit_end_time: 2020-03-31
     instruments: *market
     infer_processors:
         - class: RobustZScoreNorm
@@ -46,8 +46,8 @@ port_analysis_config: &port_analysis_config
             topk: 30
             n_drop: 30
     backtest:
-        start_time: 2017-01-01
-        end_time: 2020-08-01
+        start_time: 2020-07-01
+        end_time: 2022-12-31
         account: 100000000
         benchmark: *benchmark
         exchange_kwargs:
@@ -58,8 +58,8 @@ task:
         module_path: qlib.contrib.model.pytorch_master_ts
         kwargs:
             seed: 0
-            n_epochs: 10
-            lr: 0.000008
+            n_epochs: 40
+            lr: 0.00001
             train_stop_loss_thred: 0.95
             market: *market
             benchmark: *benchmark
@@ -73,9 +73,9 @@ task:
                 module_path: qlib.contrib.data.handler
                 kwargs: *data_handler_config
             segments:
-                train: [2008-01-01, 2014-12-31]
-                valid: [2015-01-01, 2016-12-31]
-                test: [2017-01-01, 2020-08-01]
+                train: [2008-01-01, 2020-03-31]
+                valid: [2020-04-01, 2020-06-30]
+                test: [2020-07-01, 2022-12-31]
             step_len: 8
             market_data_handler_config: *market_data_handler_config
     record: 

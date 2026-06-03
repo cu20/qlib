@@ -69,7 +69,7 @@ if __name__ == "__main__":
         ]
     }
 
-    for seed in range(0, 3):
+    for seed in range(0, 1):
         print("------------------------")
         print(f"seed: {seed}")
 

@@ -292,6 +292,13 @@ class TCNModel(nn.Module):
         self.linear = nn.Linear(num_channels[-1], output_size)
 
     def forward(self, x):
-        output = self.tcn(x.permute(0, 2, 1))
+        # TCN expects channel-first input: (batch, d_feat, seq_len).
+        # Training path already provides channel-first tensors, while some
+        # inference paths may still provide (batch, seq_len, d_feat).
+        if x.dim() != 3:
+            raise ValueError(f"TCNModel expects a 3D tensor, got shape={tuple(x.shape)}")
+        if x.shape[1] != self.num_input and x.shape[2] == self.num_input:
+            x = x.permute(0, 2, 1)
+        output = self.tcn(x)
         output = self.linear(output[:, :, -1])
         return output.squeeze()

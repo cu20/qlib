@@ -1,27 +1,99 @@
-# https://github.com/github/gitignore/blob/master/Python.gitignore
+# =============================================================================
+# Python
+# =============================================================================
 __pycache__/
-*.docx
-*.pyc
-*.pyd
+*.py[cod]
+*$py.class
 *.so
-*.ipynb
-.ipynb_checkpoints
-_build
+*.pyd
+*.egg-info/
+_build/
 build/
 dist/
+.pytest_cache/
+.mypy_cache/
+tags
 
-*.pkl
-*.hd5
-*.csv
-
+# =============================================================================
+# IDE / editor
+# =============================================================================
 .env
 .vim
 .nvimrc
-.vscode
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
 
+# =============================================================================
+# Qlib build / version (generated)
+# =============================================================================
 qlib/VERSION.txt
 qlib/data/_libs/expanding.cpp
 qlib/data/_libs/rolling.cpp
+
+# =============================================================================
+# Datasets & caches (large binaries / tables)
+# =============================================================================
+*.pkl
+*.pickle
+*.hd5
+*.h5
+*.hdf5
+*.parquet
+*.feather
+*.bin
+.qlib/
+.data/
+.output/
+pretrain/
+
+# Tabular dumps under data trees (keep repo configs as yaml/py)
+**/data/**/*.csv
+**/data/**/*.json
+**/data/**/*.txt
+
+# Broad csv/json for downloaded Alpha158-style dumps at repo root paths
+*.csv
+*.json
+
+# Allow small benchmark summaries if explicitly needed (uncomment to track):
+# !examples/benchmarks/**/*.md
+
+# =============================================================================
+# Notebooks (outputs only; remove next line if you commit .ipynb)
+# =============================================================================
+*.ipynb
+.ipynb_checkpoints/
+
+# =============================================================================
+# Experiment & training artifacts
+# =============================================================================
+mlruns/
+**/mlruns/
+**/logs/
+**/checkpoints/
+**/outputs/
+**/rl_models/
+*.ckpt
+*.pth
+*.pt
+*.pb
+*.onnx
+*.tflite
+wandb/
+tensorboard/
+runs/
+
+# Core dumps
+core
+core.*
+
+# =============================================================================
+# Examples — RL / estimator scratch
+# =============================================================================
 examples/estimator/estimator_example/
 examples/rl/data/
 examples/rl/checkpoints/
@@ -29,25 +101,20 @@ examples/rl/outputs/
 examples/rl_order_execution/data/
 examples/rl_order_execution/outputs/
 
-*.egg-info/
+# Benchmark run outputs (figures, metrics, MLflow)
+examples/benchmarks/**/mlruns/
+examples/benchmarks/**/logs/
+examples/benchmarks/**/checkpoints/
+examples/benchmarks/**/outputs/
+examples/benchmarks/**/rl_models/
+# Generated plots (keep source scripts / yaml; drop line to commit figures)
+examples/benchmarks/**/*.png
+examples/benchmarks/**/*.jpg
+examples/benchmarks/**/*.jpeg
+examples/benchmarks/**/*.pdf
 
-# test related
+# =============================================================================
+# Test / misc
+# =============================================================================
 test-output.xml
-.output
-.data
-
-# special software
-mlruns/
-
-tags
-
-.pytest_cache/
-.mypy_cache/
-.vscode/
-
-*.swp
-
-./pretrain
-.idea/
-
 *.log

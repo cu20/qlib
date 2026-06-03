@@ -33,6 +33,9 @@ class WaveFormerQlibModel(Model):
         self,
         d_feat: int = 158,
         d_model: int = 256,
+        num_label_heads: int = 1,
+        head_loss_weights=None,
+        primary_head_index: int = 0,
         t_nhead: int = 4,
         s_nhead: int = 2,
         gate_input_start_index: int = 158,
@@ -47,6 +50,11 @@ class WaveFormerQlibModel(Model):
         train_stop_loss_thred: float = 0.95,
         save_path: str = "model/",
         save_prefix: str = "waveformer_",
+        print_valid_ic: bool = False,
+        use_valid_for_ckpt_selection: bool = False,
+        use_master_label_process: bool = False,
+        use_master_valid_loss: bool = False,
+        save_master_suffix: bool = False,
         # wavelet denoising config (GPU-native, inside model)
         use_wavelet_denoise: bool = False,
         wavelet: str = "haar",
@@ -55,15 +63,24 @@ class WaveFormerQlibModel(Model):
         threshold_mode: str = "soft",
         threshold_scale: float = 0.3,
         denoise_blend: float = 0.25,
+        adaptive_blend: bool = False,
+        adaptive_target_ratio: float = 0.08,
+        adaptive_sharpness: float = 12.0,
+        adaptive_blend_min: float = 0.03,
+        adaptive_blend_max: float = 0.55,
         denoise_finest_only: bool = True,
         level_dependent_scale: bool = True,
         use_edge_pad: bool = True,
         use_boundary_smooth: bool = False,
         boundary_smooth_win: int = 1,
+        wavelet_collect_stats: bool = True,
     ):
         self.inner = WaveFormerModel(
             d_feat=d_feat,
             d_model=d_model,
+            num_label_heads=num_label_heads,
+            head_loss_weights=head_loss_weights,
+            primary_head_index=primary_head_index,
             t_nhead=t_nhead,
             s_nhead=s_nhead,
             T_dropout_rate=T_dropout_rate,
@@ -78,6 +95,11 @@ class WaveFormerQlibModel(Model):
             train_stop_loss_thred=train_stop_loss_thred,
             save_path=save_path,
             save_prefix=save_prefix,
+            log_valid_ic=print_valid_ic,
+            use_valid_for_ckpt_selection=use_valid_for_ckpt_selection,
+            use_master_label_process=use_master_label_process,
+            use_master_valid_loss=use_master_valid_loss,
+            save_master_suffix=save_master_suffix,
             use_wavelet_denoise=use_wavelet_denoise,
             wavelet=wavelet,
             denoise_level=denoise_level,
@@ -85,11 +107,17 @@ class WaveFormerQlibModel(Model):
             threshold_mode=threshold_mode,
             threshold_scale=threshold_scale,
             denoise_blend=denoise_blend,
+            adaptive_blend=adaptive_blend,
+            adaptive_target_ratio=adaptive_target_ratio,
+            adaptive_sharpness=adaptive_sharpness,
+            adaptive_blend_min=adaptive_blend_min,
+            adaptive_blend_max=adaptive_blend_max,
             denoise_finest_only=denoise_finest_only,
             level_dependent_scale=level_dependent_scale,
             use_edge_pad=use_edge_pad,
             use_boundary_smooth=use_boundary_smooth,
             boundary_smooth_win=boundary_smooth_win,
+            wavelet_collect_stats=wavelet_collect_stats,
         )
         self.fitted = False
 
@@ -99,18 +127,8 @@ class WaveFormerQlibModel(Model):
 
     def fit(self, dataset: DatasetH):
         dl_train = dataset.prepare("train", col_set=["feature", "label"], data_key=DataHandlerLP.DK_L)
-        dl_valid = dataset.prepare("valid", col_set=["feature", "label"], data_key=DataHandlerLP.DK_L)
-
-        self.inner.fit(dl_train, dl_valid)
-
-        try:
-            save_dir = Path(self.inner.save_path)
-            save_dir.mkdir(parents=True, exist_ok=True)
-            fname = f"{self.inner.save_prefix}_{self.inner.seed}.pkl"
-            save_path = save_dir / fname
-            torch.save(self.inner.model.state_dict(), save_path)
-        except Exception as e:
-            print(f"[WaveFormerQlibModel] Warning: failed to save model: {e}")
+        # Follow upstream MASTER URL logic: train-only loop (no valid-set selection path).
+        self.inner.fit(dl_train, None)
 
         self.fitted = True
 

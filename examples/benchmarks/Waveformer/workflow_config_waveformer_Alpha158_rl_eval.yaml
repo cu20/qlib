@@ -5,9 +5,9 @@ market: &market csi300
 benchmark: &benchmark SH000300
 data_handler_config: &data_handler_config
     start_time: 2008-01-01
-    end_time: 2020-08-01
+    end_time: 2022-12-31
     fit_start_time: 2008-01-01
-    fit_end_time: 2014-12-31
+    fit_end_time: 2020-03-31
     instruments: *market
     infer_processors:
         - class: RobustZScoreNorm
@@ -19,15 +19,12 @@ data_handler_config: &data_handler_config
               fields_group: feature
     learn_processors:
         - class: DropnaLabel
-        - class: CSRankNorm
-          kwargs:
-              fields_group: label
-    label: ["Ref($close, -5) / Ref($close, -1) - 1"] 
+    label: ["Ref($close, -5) / Ref($close, -1) - 1"]
 market_data_handler_config: &market_data_handler_config
     start_time: 2008-01-01
-    end_time: 2020-08-01
+    end_time: 2022-12-31
     fit_start_time: 2008-01-01
-    fit_end_time: 2014-12-31
+    fit_end_time: 2020-03-31
     instruments: *market
     infer_processors:
         - class: RobustZScoreNorm
@@ -39,19 +36,25 @@ market_data_handler_config: &market_data_handler_config
               fields_group: feature
 port_analysis_config: &port_analysis_config
     strategy:
-        class: TopkDropoutStrategy
-        module_path: qlib.contrib.strategy
+        class: TimingRLTopkStrategy
+        module_path: timing_rl_strategy
         kwargs:
             signal: <PRED>
-            topk: 30           # 仍持有 30 只，保证分散度
-            n_drop: 3          # 每个调仓日最多换 3 只
-            hold_thresh: 10    # 至少持有 10 个交易日才允许卖出
-            risk_degree: 0.8   # 使用 80% 资金建仓，降低仓位波动
-            method_buy: top
-            method_sell: bottom
+            topk: 28
+            n_drop: 12
+            hold_thresh: 10
+            action_mode: "sample"
+            sample_temperature: 0.45
+            policy_path: "rl_models/timing_policy_v8_oraclebc_ppo.json"
+            default_topk: 28
+            default_n_drop: 12
+            default_risk_degree: 0.8
+            debug_log: true
+            debug_log_warmup_steps: 20
+            debug_log_interval: 50
     backtest:
-        start_time: 2017-01-01
-        end_time: 2020-08-01
+        start_time: 2020-07-01
+        end_time: 2022-12-31
         account: 100000000
         benchmark: *benchmark
         exchange_kwargs:
@@ -62,7 +65,7 @@ task:
         module_path: qlib.contrib.model.waveformer_ts
         kwargs:
             seed: 0
-            n_epochs: 10
+            n_epochs: 40
             lr: 0.00001
             train_stop_loss_thred: 0.95
             d_feat: 158
@@ -72,8 +75,7 @@ task:
             gate_input_start_index: 158
             gate_input_end_index: 221
             beta: 5
-            save_prefix: *market
-            # 小波去噪（默认关闭，由 main_waveformer.py 的消融逻辑动态开启）
+            save_prefix: "csi300"
             use_wavelet_denoise: false
             wavelet: "haar"
             denoise_level: 1
@@ -90,29 +92,29 @@ task:
         class: MASTERTSDatasetH
         module_path: qlib.contrib.data.dataset
         kwargs:
+            use_pre_norm_wavelet: false
             handler:
                 class: Alpha158
                 module_path: qlib.contrib.data.handler
                 kwargs: *data_handler_config
             segments:
-                train: [2008-01-01, 2014-12-31]
-                valid: [2015-01-01, 2016-12-31]
-                test: [2017-01-01, 2020-08-01]
+                train: [2008-01-01, 2020-03-31]
+                valid: [2020-04-01, 2020-06-30]
+                test: [2020-07-01, 2022-12-31]
             step_len: 8
             market_data_handler_config: *market_data_handler_config
-    record: 
+    record:
         - class: SignalRecord
           module_path: qlib.workflow.record_temp
-          kwargs: 
+          kwargs:
             model: <MODEL>
             dataset: <DATASET>
         - class: SigAnaRecord
           module_path: qlib.workflow.record_temp
-          kwargs: 
+          kwargs:
             ana_long_short: False
             ann_scaler: 252
         - class: PortAnaRecord
           module_path: qlib.workflow.record_temp
-          kwargs: 
+          kwargs:
             config: *port_analysis_config
-

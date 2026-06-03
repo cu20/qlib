@@ -26,6 +26,32 @@ from ...model.base import Model
 # from qlib.workflow import R, Experiment
 # from qlib.workflow.task.utils import TimeAdjuster
 
+import pickle
+
+def zscore(x):
+    return (x - x.mean()).div(x.std())
+
+def drop_extreme(x):
+    sorted_tensor, indices = x.sort()
+    N = x.shape[0]
+    percent_2_5 = int(0.025*N)  
+    # Exclude top 2.5% and bottom 2.5% values
+    filtered_indices = indices[percent_2_5:-percent_2_5]
+    mask = torch.zeros_like(x, device=x.device, dtype=torch.bool)
+    mask[filtered_indices] = True
+    return mask, x[mask]
+
+def drop_na(x):
+    mask = ~torch.isnan(x)
+    return mask, x[mask]
+    
+def dump_data(data, source, stage):
+    path = f'data\opensource\{source}_dl_{stage}.pkl'
+    print('Dumping data at:', path)
+    with open(path, 'wb') as fp: 
+        pickle.dump(data, fp)
+
+
 class PositionalEncoding(nn.Module):
     def __init__(self, d_model, max_len=100):
         super(PositionalEncoding, self).__init__()
@@ -221,11 +247,6 @@ class MASTER(nn.Module):
 
         return output
 
-def calc_ic(pred, label):
-    df = pd.DataFrame({'pred':pred, 'label':label})
-    ic = df['pred'].corr(df['label'])
-    ric = df['pred'].corr(df['label'], method='spearman')
-    return ic, ric
 
 
 class DailyBatchSamplerRandom(Sampler):
@@ -278,9 +299,9 @@ class MASTERModel(Model):
 
         self.fitted = False
         if self.market == 'csi300':
-            self.beta = 10
-        else:
             self.beta = 5
+        else:
+            self.beta = 2
         if self.seed is not None:
             np.random.seed(self.seed)
             torch.manual_seed(self.seed)
@@ -316,9 +337,11 @@ class MASTERModel(Model):
 
     def train_epoch(self, data_loader):
         self.model.train()
+        torch.cuda.empty_cache()
         losses = []
 
         for data in data_loader:
+            
             data = torch.squeeze(data, dim=0)
             '''
             data.shape: (N, T, F)
@@ -328,6 +351,15 @@ class MASTERModel(Model):
             '''
             feature = data[:, :, 0:-1].to(self.device)
             label = data[:, -1, -1].to(self.device)
+
+            # Additional process on labels
+            # Drop extreme labels
+            mask, label = drop_extreme(label)
+            feature = feature[mask, :, :]
+            
+            # CSZscoreNorm
+            label = zscore(label)
+
             assert not torch.any(torch.isnan(label))
 
             pred = self.model(feature.float())
@@ -349,8 +381,15 @@ class MASTERModel(Model):
             data = torch.squeeze(data, dim=0)
             feature = data[:, :, 0:-1].to(self.device)
             label = data[:, -1, -1].to(self.device)
+
+            # Note the difference: 
+            # 1) The qlib.DropnaLabel drop **samples** according to label. 
+            # 2) Here we use all samples to compute the inter-stock correlation, but only drop the na labels to compute metrics (loss, etc.).
+            mask, label = drop_na(label)
+            label = zscore(label)
+
             pred = self.model(feature.float())
-            loss = self.loss_fn(pred, label)
+            loss = self.loss_fn(pred[mask], label)
             losses.append(loss.item())
 
         return float(np.mean(losses))
@@ -366,34 +405,43 @@ class MASTERModel(Model):
 
     def fit(self, dataset: DatasetH):
         dl_train = dataset.prepare("train", col_set=["feature", "label"], data_key=DataHandlerLP.DK_L)
-        dl_valid = dataset.prepare("valid", col_set=["feature", "label"], data_key=DataHandlerLP.DK_L)
+        #dl_valid = dataset.prepare("valid", col_set=["feature", "label"], data_key=DataHandlerLP.DK_I)
+        
+        #dump_data(dl_train, self.market, 'train')
+        #dump_data(dl_valid, self.market, 'valid')
+     
         train_loader = self._init_data_loader(dl_train, shuffle=True, drop_last=True)
-        valid_loader = self._init_data_loader(dl_valid, shuffle=False, drop_last=True)
+        #valid_loader = self._init_data_loader(dl_valid, shuffle=False, drop_last=False)
 
         self.fitted = True
-        best_param = None
-        best_val_loss = 1e3
+        #best_param = None
+        #best_val_loss = 1e3
 
         for step in range(self.n_epochs):
             train_loss = self.train_epoch(train_loader)
-            val_loss = self.test_epoch(valid_loader)
-
-            print("Epoch %d, train_loss %.6f, valid_loss %.6f " % (step, train_loss, val_loss))
-            if best_val_loss > val_loss:
-                best_param = copy.deepcopy(self.model.state_dict())
-                best_val_loss = val_loss
+            print("Epoch %d, train_loss %.6f" % (step, train_loss))
+            #val_loss = self.test_epoch(valid_loader)
+            #print("Epoch %d, train_loss %.4f, val_loss %.4f " % (step, train_loss,  val_loss))
+            #if best_val_loss > val_loss:
+                #best_param = copy.deepcopy(self.model.state_dict())
+                #best_val_loss = val_loss
 
             if train_loss <= self.train_stop_loss_thred:
+                best_param = copy.deepcopy(self.model.state_dict())
                 break
+
         torch.save(best_param, f'{self.save_path}{self.save_prefix}master_{self.seed}.pkl')
 
-    def predict(self, dataset: DatasetH, use_pretrained = True):
+    def predict(self, dataset: DatasetH, use_pretrained = False):
         if use_pretrained:
             self.load_param(f'{self.save_path}{self.save_prefix}master_{self.seed}.pkl')
         if not self.fitted:
             raise ValueError("model is not fitted yet!")
 
         dl_test = dataset.prepare("test", col_set=["feature", "label"], data_key=DataHandlerLP.DK_I)
+        
+        #dump_data(dl_test, self.market, 'test')
+        
         test_loader = self._init_data_loader(dl_test, shuffle=False, drop_last=False)
 
         pred_all = []
